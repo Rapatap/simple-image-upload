@@ -1,3 +1,29 @@
+document.getElementById('imageInput').addEventListener('change', handleImageSelection);
+
+function handleImageSelection(event) {
+  const fileInput = event.target;
+  const files = fileInput.files;
+
+  if (files && files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imageData = e.target.result;
+      showImagePreview(imageData);
+    };
+    reader.readAsDataURL(files[0]);
+  }
+}
+
+function showImagePreview(imageData) {
+  const previewContainer = document.getElementById('previewContainer');
+  previewContainer.innerHTML = '';
+
+  const previewImage = document.createElement('img');
+  previewImage.src = imageData;
+
+  previewContainer.appendChild(previewImage);
+}
+
 document.getElementById('uploadForm').addEventListener('submit', handleUpload);
 
 function handleUpload(event) {
