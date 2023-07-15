@@ -20,28 +20,66 @@ function handleUpload(event) {
 function addImage(imageData) {
   const imageList = document.getElementById('imageList');
 
+  const imageCard = createImageCard(imageData);
+  imageList.appendChild(imageCard);
+}
+
+function createImageCard(imageData) {
   const imageCard = document.createElement('div');
   imageCard.classList.add('image-card');
 
   const img = document.createElement('img');
   img.src = imageData;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.innerText = 'Delete';
-  deleteButton.addEventListener('click', function() {
-    imageCard.remove();
+  img.addEventListener('click', function() {
+    enlargeImage(img);
   });
 
-  const editButton = document.createElement('button');
-  editButton.innerText = 'Edit';
-  editButton.addEventListener('click', function() {
-    // Add your edit functionality here
-    console.log('Edit button clicked');
+  const deleteButton = createButton('Delete', 'delete', function() {
+    deleteImage(imageCard);
+  });
+
+  const editButton = createButton('Edit', 'edit', function() {
+    editImage(imageCard);
   });
 
   imageCard.appendChild(img);
   imageCard.appendChild(deleteButton);
   imageCard.appendChild(editButton);
 
-  imageList.appendChild(imageCard);
+  return imageCard;
 }
+
+function createButton(text, className, clickHandler) {
+  const button = document.createElement('button');
+  button.innerText = text;
+  button.classList.add(className);
+  button.addEventListener('click', clickHandler);
+
+  return button;
+}
+
+function deleteImage(imageCard) {
+  imageCard.remove();
+}
+
+function editImage(imageCard) {
+  // Add your edit functionality here
+  console.log('Edit button clicked');
+}
+
+function enlargeImage(img) {
+  const enlargedImageContainer = document.createElement('div');
+  enlargedImageContainer.classList.add('enlarged-image-container');
+
+  const enlargedImage = document.createElement('img');
+  enlargedImage.src = img.src;
+
+  enlargedImage.addEventListener('click', function() {
+    enlargedImageContainer.remove();
+  });
+
+  enlargedImageContainer.appendChild(enlargedImage);
+  document.body.appendChild(enlargedImageContainer);
+}
+
